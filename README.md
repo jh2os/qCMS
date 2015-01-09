@@ -32,7 +32,7 @@ to:
         </head>
         <body>
                 <h1 data-qcms-input="Page Title">Hello World</h1>
-                <div id="body" data-qcms-input="Page Content">
+                <div id="body" data-qcms-ckedit="Page Content">
                         <p>This is some text woo!</p>
                 </div>
 		<a href="http://google.com/" data-qcms-link="Footer Link">Google!</a>
