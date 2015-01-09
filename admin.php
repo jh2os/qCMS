@@ -3,11 +3,24 @@
 // error_reporting(E_ALL);
  
  $users = array(
-	"user" => "password",
-	"user2" => "password2"
+	"username1" => "password",
+	"test" => "password1"
  );
  
- $file = "test.php";
+ $files = array(
+	 array("Homepage", "index.php"),
+	 array("About Us", "about.php"),
+	 array("Services", "test.php"),
+	 array("Specials", "specials.php")
+ );
+ 
+ if( isset($_GET['page'])) {
+	 $file = $files[$_GET['page']][1];
+	 $fileTitle = $files[$_GET['page']][0];
+ } else {
+ 	$file = $files[0][1];
+	$fileTitle = $files[0][0];
+ }
 
 // This is where we display the data in the backend. If you want to extend these options, see the documentation
 function displayFields($elementData) {
@@ -20,12 +33,12 @@ function displayFields($elementData) {
 		
 		case "textarea":
 			echo '<label for="'.$elementData["qcmsUrlTitle"].'"><h3>'.$elementData["qcmsTitle"].'</h3></label><br><hr><br>';
-			echo '<textarea  name="'.$elementData["qcmsUrlTitle"].'">'.$elementData["tagContent"].'</textarea>';
+			echo '<textarea  rows="6" name="'.$elementData["qcmsUrlTitle"].'">'.$elementData["tagContent"].'</textarea>';
 			break;
 		
 		case "ckedit":
 			echo '<label for="'.$elementData["qcmsUrlTitle"].'"><h3>'.$elementData["qcmsTitle"].'</h3></label><br><hr><br>';
-			echo '<textarea  name="'.$elementData["qcmsUrlTitle"].'">'.$elementData["tagContent"].'</textarea>';
+			echo '<textarea name="'.$elementData["qcmsUrlTitle"].'">'.$elementData["tagContent"].'</textarea>';
 			break;
 		
 		case "link":
@@ -359,7 +372,9 @@ if (isset($_SESSION['loggedin']) && ($_SESSION['loggedin'] == 'true'))
 				font-family: 'Bree Serif', serif;
 			}
 			h2 {
-				font-size: .75em;
+				margin: 0;
+				font-size: 3em;
+				font-family: 'Bree Serif', serif;
 			}
 			#main {
 				max-width: 900px;
@@ -459,6 +474,14 @@ if (isset($_SESSION['loggedin']) && ($_SESSION['loggedin'] == 'true'))
 				 color: #FF9900;*/
 				 margin-bottom: 1em;
 			 }
+			 .buttons {
+				 width: 33%;
+				 float: left;
+				 margin: auto;
+			 }
+			 .buttons a {
+				 display: inline-block;
+			 }
 			</style>
 		</head>
 		<body style="text-align:center;">
@@ -466,16 +489,18 @@ if (isset($_SESSION['loggedin']) && ($_SESSION['loggedin'] == 'true'))
 				<h1>Qcms</h1>				<br>
 			</div>
 			<div id="header-buttons">
-				<form method="GET" style="float:right;margin-right: 1em;"><button name="logout" value="true" class="pure-button">Log out</button></form>	
-				<form><button id="AddImage" class="pure-button">Upload Images</button></form>
-				<form action="" method="post" enctype="multipart/form-data" style="display:none;" id="resourceupload" class="pure-form">
-					<input type="hidden" name="resources" value="1">
-					<input type="file" name="fileToUpload" id="fileToUpload"><br><br>
-					<button type="submit" name="submit" class="pure-form">Upload Image</button>
-				</form>
-									<div class="clear"></div><br>
+				<div class="buttons">
+					<a href="#" class="switchfile" >Pages</a>
+				</div>
+				<div class="buttons">
+					<form><button id="AddImage" class="pure-button">Upload Images</button></form>
+				</div>
+				<div class="buttons">
+					<form method="GET" style=""><button name="logout" value="true" class="pure-button">Log out</button></form>					
+				</div>
+				<div class="clear"></div><br>
 			</div>
-			<form method="POST" action="" class="pure-form pure-form-stacked">
+			<form method="POST" class="pure-form pure-form-stacked">
 			<div id="main">
 				<div id="main-center">
 					<?php
@@ -484,6 +509,29 @@ if (isset($_SESSION['loggedin']) && ($_SESSION['loggedin'] == 'true'))
 						echo '<span style="color:green">Your page was saved!</span><br><br>';
 					}
 					?>
+					<div class="material uploadfiles" style="display:none">
+						<h2>Upload Images</h2><hr><br>
+						<form action="" method="post" enctype="multipart/form-data" style="display:none;" id="resourceupload" class="pure-form">
+							<input type="hidden" name="resources" value="1">
+							<input type="file" name="fileToUpload" id="fileToUpload"><br><br>
+							<button type="submit" name="submit" class="pure-form">Upload Image</button>
+						</form>
+					</div><br>
+					<div class="material hiddenfiles" style="display:none">
+						<h2>Pages</h2><hr><br>
+						<?php
+						$uri_parts = explode('?', $_SERVER['REQUEST_URI'], 2);
+						$urlthingy =  $uri_parts[0];
+						$counterfile = 0;
+						foreach($files as $afile) {
+							echo '<a href="'.$urlthingy."?page=".$counterfile.'">'.$afile[0].'</a>&nbsp;';
+							$counterfile++;
+						}?>
+					</div><br>
+					<div class="material">
+						<h2><?=$fileTitle?></h2>
+						<p>filename: <?=$file?></p>
+					</div><br>
 						<input type="hidden" name="qcms" value="<?php echo rand(10,100);?>">
 						<?php
 						foreach($data as $row)
@@ -495,7 +543,6 @@ if (isset($_SESSION['loggedin']) && ($_SESSION['loggedin'] == 'true'))
 						?><br>
 				</div>
 			</div>
-			</form>
 			<div id="footer-buttons">
 				<br>
 				<a target="_blank" class="pure-button pure-button-primary" href="<?php echo $file;?>"> View Current Page</a>
@@ -504,17 +551,22 @@ if (isset($_SESSION['loggedin']) && ($_SESSION['loggedin'] == 'true'))
 				<button type="submit" value="Save Page" class="pure-button pure-button-primary pure-button-active">Save Page</button>
 				<br><br><br>
 			</div>
+			</form>
 			<div id="footer-space">
 				<br><br><br><br>
 			</div>
 			<script>
 		 	CKEDITOR.env.isCompatible = true;
 		    $(document).ready(function() { 
+				$('.switchfile').on('click', function(e){
+					e.preventDefault();
+					$('.hiddenfiles').slideToggle();
+					
+				});
 				$('#resourceupload').ajaxForm({success: showResponse});
 				$('#AddImage').on('click', function(e){
 					e.preventDefault();
-					$('#resourceupload').show();
-					$(this).hide();
+					$('.uploadfiles').slideToggle();
 				});
 		    });
 			function showResponse(responseText, statusText, xhr, $form) {
