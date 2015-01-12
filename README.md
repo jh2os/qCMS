@@ -41,7 +41,11 @@ to:
 ```
 
 The available data attributes are:
+
 data-qcms-input
+
 data-qcms-textarea
+
 data-qcms-link
+
 data-qcms-ckedit
