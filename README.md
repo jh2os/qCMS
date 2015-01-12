@@ -5,7 +5,7 @@ A simple flat file CMS that is quick and painless to set up
 
 First extract the files to the same directory of the html page you wish to manage. 
 
-Next edit admin.php and change the users array and change the file variable to the file you wish to manage
+Next edit admin.php and change the users array and change the files variable to the files you wish to manage
 
 Then you edit your html file you wish to manage
 
@@ -39,3 +39,9 @@ to:
 	</body>
 </html>
 ```
+
+The available data attributes are:
+data-qcms-input
+data-qcms-textarea
+data-qcms-link
+data-qcms-ckedit

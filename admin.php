@@ -1,18 +1,28 @@
 <?php
-//ini_set('display_errors',1); 
-// error_reporting(E_ALL);
- 
- $users = array(
-	"username1" => "password",
-	"test" => "password1"
+
+// Change these to the usernames and passwords of all the users you wish to manage these pages 
+$users = array(
+	array("username1", "password1"),
+	array("username2", "password2")
  );
  
- $files = array(
+// Add your files here
+$files = array(
 	 array("Homepage", "index.php"),
 	 array("About Us", "about.php"),
 	 array("Services", "test.php"),
 	 array("Specials", "specials.php")
  );
+ 
+// These are the colors of the admin, you can change as you please
+$color1 = "#ECECEA";
+$color2 = "#424242";
+$color3 = "#74AFAD";
+$color4 = "#585858";
+$color5 = "#D9853B";
+
+
+// Unless you want to change how this cms file functions, do not edit anything below this point 
  
  if( isset($_GET['page'])) {
 	 $file = $files[$_GET['page']][1];
@@ -336,13 +346,265 @@ if (isset($_SESSION['loggedin']) && ($_SESSION['loggedin'] == 'true'))
 		file_put_contents($file,$newhtml);
 	}
 	
-	$color1 = "#ECECEA";
-	$color2 = "#424242";
-	$color3 = "#74AFAD";
-	$color4 = "#585858";
-	$color5 = "#D9853B";
-	
 	?>
+	<html>
+		<head>
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+			<script src="./ckeditor/ckeditor.js"></script>
+			<script src="http://malsup.github.com/jquery.form.js"></script>
+			<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/base-min.css">
+			<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+			<link href='http://fonts.googleapis.com/css?family=Bree+Serif' rel='stylesheet' type='text/css'>
+			<style>
+			html, body {
+				width: 100%;
+				max-width: 100%;
+				margin: 0;
+				padding: 0;
+				background-color: <?=$color1?>;/*#ECECEA;*/
+				color: <?=$color2?>;/*#424242;*/
+			}
+			h2, h3, h4, label{
+				color: #558C89;
+				font-family: 'Roboto', sans-serif;
+				font-family: 'Bree Serif', serif;
+			}
+			h1 {
+				margin: 0;
+				font-size: 5em;
+				font-family: 'Bree Serif', serif;
+			}
+			h2 {
+				margin: 0;
+				font-size: 3em;
+				font-family: 'Bree Serif', serif;
+			}
+			#main {
+				max-width: 900px;
+				margin: auto;
+				margin-top: 0;
+				background-color: <?=$color1;?>;/*#ECECEA;*/
+
+			}
+			#header {
+				margin-top: 0;
+				background-color: <?=$color3?>;/*#74AFAD;*/
+				color: <?=$color1;?>;/*#ECECEA;*/
+			}
+			#header-buttons {
+				margin-top: 0;
+				margin-bottom: 30px;
+				padding-top: 1em;
+				background-color: <?=$color4?>;/*#558C89;*/
+				-webkit-box-shadow: 0px 6px 40px 5px rgba(0,0,0,0.25);
+				-moz-box-shadow: 0px 6px 40px 5px rgba(0,0,0,0.25);
+				box-shadow: 0px 6px 40px 5px rgba(0,0,0,0.25);
+			}
+			#footer-buttons {
+				margin-top: 0;
+				padding-top: 1em;
+				background-color: <?=$color4?>;/*#558C89;*/
+			}
+			#footer-space {
+				margin-top: 0;
+				padding-top: 2em;
+				background-color: <?=$color3?>;/*#74AFAD;*/
+			}
+			#main-center {
+				padding-top: 1em;
+				padding: 1em;
+				max-width: 800px;
+				margin: auto;
+				background-color: <?=$color1;?>;/*#ECECEA;*/
+			}
+			.material {
+				width: 94%;
+				padding: 1em;
+				padding-bottom: 2em;
+				margin: auto;
+				background-color: white;
+				-webkit-box-shadow: 2px 2px 12px 0px rgba(50, 50, 50, 0.3);
+				-moz-box-shadow:    2px 2px 12px 0px rgba(50, 50, 50, 0.3);
+				box-shadow:         2px 2px 12px 0px rgba(50, 50, 50, 0.3);
+			}
+			.materialsmall {
+				display: inline-block;
+				padding: 1em;
+				padding-bottom: 2em;
+				margin: auto;
+				background-color: white;
+				-webkit-box-shadow: 2px 2px 12px 0px rgba(50, 50, 50, 0.3);
+				-moz-box-shadow:    2px 2px 12px 0px rgba(50, 50, 50, 0.3);
+				box-shadow:         2px 2px 12px 0px rgba(50, 50, 50, 0.3);
+			}
+			textarea, .cke {
+				width: 100%;
+				 max-width: 800px;
+				 margin-left: auto !important;
+				 margin-right: auto !important;
+			 }
+			 .cke_reset {
+				 margin: auto;
+			 }
+			 a {
+				 background-color: <?=$color5?>;/*#D9853B;*/
+				 color: <?=$color1;?>;/*#ECECEA;*/
+				 border: none;
+				 text-decoration: none;
+				 padding: 0.5em;
+				 -webkit-border-radius: 5px;
+				 -moz-border-radius: 5px;
+				 border-radius: 5px;
+				 -webkit-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.1);
+				 -moz-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.1);
+				 box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.1);
+			 }
+			 a:visited {
+				 background-color: <?=$color5?>;/*#D9853B;*/
+				 color: #FFF;
+			 }
+			 hr {
+			 }
+			 button {
+				 background-color: <?=$color5?>;/*#D9853B;*/
+				 color: #FFF;/*#E9E9E9;*/
+				 border: none;
+				 padding: 0.5em;
+				 -webkit-border-radius: 5px;
+				 -moz-border-radius: 5px;
+				 border-radius: 5px;
+				 -webkit-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.1);
+				 -moz-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.1);
+				 box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.1);
+			 }
+			 #resourceupload {
+			 }
+			 .clear {
+				 clear: both;
+			 }
+			 label {
+				 /*background-color: #424242;
+				 color: #FF9900;*/
+				 margin-bottom: 1em;
+			 }
+			 .buttons {
+				 width: 33%;
+				 float: left;
+				 margin: auto;
+			 }
+			 .buttons a {
+				 display: inline-block;
+			 }
+			</style>
+		</head>
+		<body style="text-align:center;">
+			<div id="header">
+				<h1>Qcms</h1>				<br>
+			</div>
+			<div id="header-buttons">
+				<div class="buttons">
+					<a href="#" class="switchfile" >Pages</a>
+				</div>
+				<div class="buttons">
+					<form><button id="AddImage" class="pure-button">Upload Images</button></form>
+				</div>
+				<div class="buttons">
+					<form method="GET" style=""><button name="logout" value="true" class="pure-button">Log out</button></form>					
+				</div>
+				<div class="clear"></div><br>
+			</div>
+			<form method="POST" class="pure-form pure-form-stacked">
+			<div id="main">
+				<div id="main-center">
+					<?php
+					if(isset($_GET['msg']) && $_GET['msg'] == 'success')
+					{
+						echo '<span style="color:green">Your page was saved!</span><br><br>';
+					}
+					?>
+					<div class="uploadfiles" style="display:none">
+						<div class="material">
+							<h2>Upload Images</h2><hr><br>
+							<form action="" method="post" enctype="multipart/form-data" style="display:none;" id="resourceupload" class="pure-form">
+								<input type="hidden" name="resources" value="1">
+								<input type="file" name="fileToUpload" id="fileToUpload"><br><br>
+								<button type="submit" name="submit" class="pure-form">Upload Image</button>
+							</form>
+						</div>
+						<br>
+					</div>
+					<div class="hiddenfiles" style="display:none">
+						<div class="material">
+							<h2>Pages</h2><hr><br>
+							<?php
+							$uri_parts = explode('?', $_SERVER['REQUEST_URI'], 2);
+							$urlthingy =  $uri_parts[0];
+							$counterfile = 0;
+							foreach($files as $afile) {
+								echo '<a href="'.$urlthingy."?page=".$counterfile.'">'.$afile[0].'</a>&nbsp;';
+								$counterfile++;
+							}?>
+						</div>
+						<br>
+					</div>
+					<div class="materialsmall">
+						<h2><?=$fileTitle?></h2><hr>
+						<p>filename: <?=$file?></p>
+					</div><br><br>
+						<input type="hidden" name="qcms" value="<?php echo rand(10,100);?>">
+						<?php
+						foreach($data as $row)
+						{
+							echo "<div class='material'>";
+							displayFields($row);
+							echo "</div><br>";
+						}
+						?><br>
+				</div>
+			</div>
+			<div id="footer-buttons">
+				<br>
+				<a target="_blank" class="pure-button pure-button-primary" href="<?php echo $file;?>"> View Current Page</a>
+				<br>
+				<br>
+				<button type="submit" value="Save Page" class="pure-button pure-button-primary pure-button-active">Save Page</button>
+				<br><br><br>
+			</div>
+			</form>
+			<div id="footer-space">
+				<br><br><br><br>
+			</div>
+			<script>
+		 	CKEDITOR.env.isCompatible = true;
+		    $(document).ready(function() { 
+				$('.switchfile').on('click', function(e){
+					e.preventDefault();
+					$('.hiddenfiles').slideToggle();
+					
+				});
+				$('#resourceupload').ajaxForm({success: showResponse});
+				$('#AddImage').on('click', function(e){
+					e.preventDefault();
+					$('.uploadfiles').slideToggle();
+				});
+		    });
+			function showResponse(responseText, statusText, xhr, $form) {
+				alert(responseText);
+			}
+			
+			<?php
+			foreach($data as $row)
+			{
+				if ($row['qcmsElement'] == "ckedit")
+				{
+					echo "CKEDITOR.replace( '".$row['qcmsUrlTitle']."' );";
+				}
+			}?>
+			</script>
+		</body>
+	</html>
+<?} else {?>
 	<html>
 		<head>
 			<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -489,121 +751,41 @@ if (isset($_SESSION['loggedin']) && ($_SESSION['loggedin'] == 'true'))
 				<h1>Qcms</h1>				<br>
 			</div>
 			<div id="header-buttons">
-				<div class="buttons">
-					<a href="#" class="switchfile" >Pages</a>
-				</div>
-				<div class="buttons">
-					<form><button id="AddImage" class="pure-button">Upload Images</button></form>
-				</div>
-				<div class="buttons">
-					<form method="GET" style=""><button name="logout" value="true" class="pure-button">Log out</button></form>					
-				</div>
-				<div class="clear"></div><br>
+				<br>
 			</div>
-			<form method="POST" class="pure-form pure-form-stacked">
+			<form method="POST" class="">
 			<div id="main">
 				<div id="main-center">
-					<?php
-					if(isset($_GET['msg']) && $_GET['msg'] == 'success')
-					{
-						echo '<span style="color:green">Your page was saved!</span><br><br>';
-					}
-					?>
-					<div class="material uploadfiles" style="display:none">
-						<h2>Upload Images</h2><hr><br>
-						<form action="" method="post" enctype="multipart/form-data" style="display:none;" id="resourceupload" class="pure-form">
-							<input type="hidden" name="resources" value="1">
-							<input type="file" name="fileToUpload" id="fileToUpload"><br><br>
-							<button type="submit" name="submit" class="pure-form">Upload Image</button>
-						</form>
-					</div><br>
-					<div class="material hiddenfiles" style="display:none">
-						<h2>Pages</h2><hr><br>
-						<?php
-						$uri_parts = explode('?', $_SERVER['REQUEST_URI'], 2);
-						$urlthingy =  $uri_parts[0];
-						$counterfile = 0;
-						foreach($files as $afile) {
-							echo '<a href="'.$urlthingy."?page=".$counterfile.'">'.$afile[0].'</a>&nbsp;';
-							$counterfile++;
-						}?>
-					</div><br>
-					<div class="material">
-						<h2><?=$fileTitle?></h2>
-						<p>filename: <?=$file?></p>
-					</div><br>
-						<input type="hidden" name="qcms" value="<?php echo rand(10,100);?>">
-						<?php
-						foreach($data as $row)
-						{
-							echo "<div class='material'>";
-							displayFields($row);
-							echo "</div><br>";
-						}
-						?><br>
+					<div class="material uploadfiles">
+						<h2>Log In</h2><hr>
+							<form method="POST" action="<?php echo $this_file;?>" class="pure-form pure-form-aligned">
+								<input type="hidden" name="loggin" value="<?php echo rand(10,100);?>">
+								<? if (isset($_POST['username'])) {?>
+								<span style="color:red">The username or password you entered was incorrect</span><br>
+								<? } ?>
+								<br><br>
+								<div class="pure-control-group">
+									<label for="username"><strong>Username: </strong></label><br><br>
+									<input name="username" id="username" type="text"><br><br>
+								</div>
+								<div class="pure-control-group">
+									<label for="password"><strong>Password: </strong></label><br><br>
+									<input name="password" id="password" type="password"><br><br><br>
+								</div>
+								<div class="pure-control-group">
+									<button type="submit" style="pure-button pure-button-primary pure-button-active">Submit</button>
+								</div>
+							</form>
+						</div><br>
+					</div>
 				</div>
-			</div>
-			<div id="footer-buttons">
-				<br>
-				<a target="_blank" class="pure-button pure-button-primary" href="<?php echo $file;?>"> View Current Page</a>
-				<br>
-				<br>
-				<button type="submit" value="Save Page" class="pure-button pure-button-primary pure-button-active">Save Page</button>
-				<br><br><br>
-			</div>
-			</form>
-			<div id="footer-space">
-				<br><br><br><br>
-			</div>
-			<script>
-		 	CKEDITOR.env.isCompatible = true;
-		    $(document).ready(function() { 
-				$('.switchfile').on('click', function(e){
-					e.preventDefault();
-					$('.hiddenfiles').slideToggle();
-					
-				});
-				$('#resourceupload').ajaxForm({success: showResponse});
-				$('#AddImage').on('click', function(e){
-					e.preventDefault();
-					$('.uploadfiles').slideToggle();
-				});
-		    });
-			function showResponse(responseText, statusText, xhr, $form) {
-				alert(responseText);
-			}
-			
-			<?php
-			foreach($data as $row)
-			{
-				if ($row['qcmsElement'] == "ckedit")
-				{
-					echo "CKEDITOR.replace( '".$row['qcmsUrlTitle']."' );";
-				}
-			}?>
-			</script>
-		</body>
-	</html>
-<?} else {?>
-	<html>
-		<head>
-			<meta name="viewport" content="width=device-width, initial-scale=1">
-			<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/base-min.css">
-			<!--script src="./ckeditor/ckeditor.js"></script-->
-		</head>
-		<body style="text-align:center;">
-			<form method="POST" action="<?php echo $this_file;?>">
-				<input type="hidden" name="loggin" value="<?php echo rand(10,100);?>"><br><br>
-				<h2>qCMS</h2><br>
-				<h5>An easy lightweight content management system</h5>
-				<? if (isset($_POST['username'])) {?>
-				<span style="color:red">The username or password you entered was incorrect</span><br>
-				<? } ?>
-				<br><br>
-				<label for="username"><strong>Username: </stong></label><input name="username" id="username" type="text"><br><br>
-				<label for="password"><strong>Password: </stong></label><input name="password" id="password" type="password"><br><br><br>
-				<input type="submit" value="Log in">
-			</form>
-		</body>
-	</html>
+				<div id="footer-buttons">
+					<br>
+					<br><br>
+				</div>
+				<div id="footer-space">
+					<br><br><br><br>
+				</div>
+			</body>
+		</html>
 <?}?>
