@@ -40,12 +40,16 @@ to:
 </html>
 ```
 
-###The available data attributes are:
+###Available Input Types:
 
-data-qcms-input
+Text Input
+*data-qcms-input
 
-data-qcms-textarea
+Textarea
+*data-qcms-textarea
 
-data-qcms-link
+Link
+*data-qcms-link
 
-data-qcms-ckedit
+CkEditor
+*data-qcms-ckedit
