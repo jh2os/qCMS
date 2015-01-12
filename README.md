@@ -43,13 +43,32 @@ to:
 ###Available Input Types:
 
 Text Input
-*data-qcms-input
 
+*data-qcms-input
+*```html
+	<h1 data-qcms-input="Page Title">Hello World</h1>
+```
 Textarea
+
 *data-qcms-textarea
+*```html
+	<p data-qcms-input="Some Text">This will be put inside a textarea</p>
+```
 
 Link
+
 *data-qcms-link
+*```html
+	<a href="http://google.com" data-qcms-link="Google link">Google</a>
+```
 
 CkEditor
+
 *data-qcms-ckedit
+*```html
+	<div data-qcms-ckedit="Main Content">
+		<p>All three of these items</p>
+		<p>Will be editable in the ckeditor</p>
+		<img src="/someimage.png">
+	</div>
+```
