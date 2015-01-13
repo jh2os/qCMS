@@ -2,16 +2,14 @@
 
 // Change these to the usernames and passwords of all the users you wish to manage these pages 
 $users = array(
-	array("username1", "password1"),
-	array("username2", "password2")
+	"username1" => "password1",
+	"username2" => "password2",
  );
  
 // Add your files here
 $files = array(
-	 array("Homepage", "index.php"),
-	 array("About Us", "about.php"),
-	 array("Services", "test.php"),
-	 array("Specials", "specials.php")
+	array("Homepage", "index.php"),
+	array("About", "about.php"),
  );
  
 // These are the colors of the admin, you can change as you please
@@ -347,6 +345,7 @@ if (isset($_SESSION['loggedin']) && ($_SESSION['loggedin'] == 'true'))
 	}
 	
 	?>
+	<!DOCTYPE html>
 	<html>
 		<head>
 			<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -380,7 +379,7 @@ if (isset($_SESSION['loggedin']) && ($_SESSION['loggedin'] == 'true'))
 				font-size: 3em;
 				font-family: 'Bree Serif', serif;
 			}
-			#main {
+			.main {
 				max-width: 900px;
 				margin: auto;
 				margin-top: 0;
@@ -411,7 +410,7 @@ if (isset($_SESSION['loggedin']) && ($_SESSION['loggedin'] == 'true'))
 				padding-top: 2em;
 				background-color: <?=$color3?>;/*#74AFAD;*/
 			}
-			#main-center {
+			.main-center {
 				padding-top: 1em;
 				padding: 1em;
 				max-width: 800px;
@@ -496,6 +495,10 @@ if (isset($_SESSION['loggedin']) && ($_SESSION['loggedin'] == 'true'))
 			 .buttons a {
 				 display: inline-block;
 			 }
+			 .pageslisting a {
+				 margin-bottom: .5em;
+				 display: inline-block;
+			 }
 			</style>
 		</head>
 		<body style="text-align:center;">
@@ -514,9 +517,8 @@ if (isset($_SESSION['loggedin']) && ($_SESSION['loggedin'] == 'true'))
 				</div>
 				<div class="clear"></div><br>
 			</div>
-			<form method="POST" class="pure-form pure-form-stacked">
-			<div id="main">
-				<div id="main-center">
+			<div class="main">
+				<div class="main-center">
 					<?php
 					if(isset($_GET['msg']) && $_GET['msg'] == 'success')
 					{
@@ -526,7 +528,7 @@ if (isset($_SESSION['loggedin']) && ($_SESSION['loggedin'] == 'true'))
 					<div class="uploadfiles" style="display:none">
 						<div class="material">
 							<h2>Upload Images</h2><hr><br>
-							<form action="" method="post" enctype="multipart/form-data" style="display:none;" id="resourceupload" class="pure-form">
+							<form action="" method="post" enctype="multipart/form-data" style="" id="resourceupload" class="pure-form">
 								<input type="hidden" name="resources" value="1">
 								<input type="file" name="fileToUpload" id="fileToUpload"><br><br>
 								<button type="submit" name="submit" class="pure-form">Upload Image</button>
@@ -535,7 +537,7 @@ if (isset($_SESSION['loggedin']) && ($_SESSION['loggedin'] == 'true'))
 						<br>
 					</div>
 					<div class="hiddenfiles" style="display:none">
-						<div class="material">
+						<div class="material pageslisting">
 							<h2>Pages</h2><hr><br>
 							<?php
 							$uri_parts = explode('?', $_SERVER['REQUEST_URI'], 2);
@@ -548,6 +550,11 @@ if (isset($_SESSION['loggedin']) && ($_SESSION['loggedin'] == 'true'))
 						</div>
 						<br>
 					</div>
+				</div>
+			</div>
+			<form method="POST" class="pure-form pure-form-stacked">
+			<div class="main">
+				<div class="main-center">
 					<div class="materialsmall">
 						<h2><?=$fileTitle?></h2><hr>
 						<p>filename: <?=$file?></p>
@@ -605,6 +612,7 @@ if (isset($_SESSION['loggedin']) && ($_SESSION['loggedin'] == 'true'))
 		</body>
 	</html>
 <?} else {?>
+	<!DOCTYPE html>
 	<html>
 		<head>
 			<meta name="viewport" content="width=device-width, initial-scale=1">

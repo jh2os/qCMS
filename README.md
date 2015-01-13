@@ -72,3 +72,11 @@ data-qcms-ckedit
 		<img src="/someimage.png">
 	</div>
 ```
+
+
+###Notes
+
+Do not nest qcms data tags (this is confusing for a single file cms)
+
+Currently you have to upload all images using the top menu "Upload Images" from there you can browse the server for images within ckeditor
+
